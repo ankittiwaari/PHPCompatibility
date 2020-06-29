@@ -31,8 +31,8 @@ abstract class CrossVersionValid
 
 trait CrossVersionValidTrait
 {
-    abstract private function privateOverload();
-    static private abstract function privateStaticOverload();
+    abstract private function privateOverload(); // OK, handled by other sniff.
+    static private abstract function privateStaticOverload(); // OK, handled by other sniff.
 }
 
 $anon = new class() {

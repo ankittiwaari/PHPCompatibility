@@ -52,8 +52,6 @@ class ForbiddenAbstractPrivateMethodsUnitTest extends BaseSniffTest
         return array(
             array(28),
             array(29),
-            array(34),
-            array(35),
             array(39),
             array(40),
         );
@@ -89,6 +87,9 @@ class ForbiddenAbstractPrivateMethodsUnitTest extends BaseSniffTest
         for ($line = 1; $line <= 24; $line++) {
             $cases[] = array($line);
         }
+
+        $cases[] = array(34);
+        $cases[] = array(35);
 
         return $cases;
     }

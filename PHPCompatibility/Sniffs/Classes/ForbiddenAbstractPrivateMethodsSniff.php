@@ -48,6 +48,8 @@ class ForbiddenAbstractPrivateMethodsSniff extends Sniff
      * Processes this test, when one of its tokens is encountered.
      *
      * @since 9.2.0
+     * @since 10.0.0 No longer triggers on abstract private methods in traits.
+     *               This is allowed as of PHP 8 and handled by the NewTraitAbstractPrivateMethods sniff.
      *
      * @param \PHP_CodeSniffer_File $phpcsFile The file being scanned.
      * @param int                   $stackPtr  The position of the current token
@@ -61,8 +63,15 @@ class ForbiddenAbstractPrivateMethodsSniff extends Sniff
             return;
         }
 
-        if (Scopes::validDirectScope($phpcsFile, $stackPtr, BCTokens::ooScopeTokens()) === false) {
+        $tokens   = $phpcsFile->getTokens();
+        $scopePtr = Scopes::validDirectScope($phpcsFile, $stackPtr, BCTokens::ooScopeTokens());
+        if ($scopePtr === false) {
             // Function, not method.
+            return;
+        }
+
+        if ($tokens[$scopePtr]['code'] === T_TRAIT) {
+            // Abstract private method in a trait. Handled by the NewTraitAbstractPrivateMethods sniff.
             return;
         }
 
